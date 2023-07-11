@@ -27,5 +27,6 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared
 
 		[ForeignKey("ProductoId")]
 		public ICollection<EntradasDetalle> EntradasDetalles { get; set; } = new List<EntradasDetalle>();
+
 	}
 }
