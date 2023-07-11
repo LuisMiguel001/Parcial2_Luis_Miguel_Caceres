@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Parcial2_Luis_Miguel_Caceres.Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,5 +24,8 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared
 		public int ProductoId { get; set; }
 
 		public int CantiadadId { get; set; }
-    }
+
+		[ForeignKey("EntradaId")]
+		public ICollection<EntradasDetalle> EntradasDetalles { get; set; } = new List<EntradasDetalle>();
+	}
 }

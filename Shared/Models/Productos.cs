@@ -16,8 +16,5 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared.Models
         public int Tipo { get; set; }
 
         public int Existencia { get; set; }
-
-		[ForeignKey("ProductoId")]
-		public ICollection<EntradasDetalle> EntradasDetalles { get; set; } = new List<EntradasDetalle>();
     }
 }

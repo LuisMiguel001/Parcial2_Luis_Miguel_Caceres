@@ -10,6 +10,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.DAL
 
 		public DbSet<Entradas> Entradas { get; set; }
 
+		public 
 	}
 }
 
