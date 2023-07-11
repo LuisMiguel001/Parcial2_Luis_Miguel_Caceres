@@ -13,7 +13,7 @@ public class Context : DbContext
 	public DbSet<Productos> Productos { get; set; }
 	public DbSet<EntradasDetalle> EntradasDetalle { get; set; }
 
-	/*protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
 		modelBuilder.Entity<Productos>().HasData(new List<Productos>()
@@ -26,7 +26,7 @@ public class Context : DbContext
 			new Productos(){Tipo=6, Descripcion="MPC0.5lb" },
 			new Productos(){Tipo=7, Descripcion="MPP0.2lb" }
 		});
-	}*/
+	}
 }
 
 
