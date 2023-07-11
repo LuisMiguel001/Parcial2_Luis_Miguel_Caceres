@@ -47,7 +47,6 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Controllers
 			return entrada;
 		}
 
-
 		[HttpPost]
 		public async Task<ActionResult<Entradas>> PostIngresos(Entradas entrada)
 		{
