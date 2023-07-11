@@ -30,7 +30,55 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Controllers
 		[HttpGet("{id}")]
 		public async Task<ActionResult<Entradas>> GetEntrada(int id)
 		{
-			return ;
+			if (_context.Entradas == null)
+			{
+				return NotFound();
+			}
+
+			var entrada = await _context.Entradas
+				.Include(i => i.EntradasDetalles)
+				.Where(i => i.EntradaId == id)
+				.FirstOrDefaultAsync();
+
+			if (entrada == null)
+			{
+				return NotFound();
+			}
+			return entrada;
+		}
+
+
+		[HttpPost]
+		public async Task<ActionResult<Entradas>> PostIngresos(Entradas entrada)
+		{
+			if (!Existe(entrada.EntradaId))
+				_context.Entradas.Add(entrada);
+			else
+				_context.Entradas.Update(entrada);
+
+			await _context.SaveChangesAsync();
+			return Ok(entrada);
+		}
+
+		[HttpDelete]
+		public async Task<ActionResult> DeleteIngresos(int id)
+		{
+			if (_context.Entradas == null)
+			{
+				return NotFound();
+			}
+
+			var detalle = await _context.Entradas.FindAsync(id);
+
+			if (detalle == null)
+			{
+				return NotFound();
+			}
+
+			_context.Entradas.Remove(detalle);
+			await _context.AddRangeAsync(detalle);
+
+			return NoContent();
 		}
 
 		public bool Existe(int id)
