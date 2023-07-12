@@ -10,9 +10,10 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared.Models;
 public class Frutos
 {
 	[Key]
+
 	public int FrutoId { get; set; }
 
-	public String? Nombre { get; set; }
+	public string Nombre { get; set; }
 
 	public int Disponibilidad { get; set; }
 
