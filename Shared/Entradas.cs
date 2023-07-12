@@ -17,7 +17,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared
 
         public DateTime Fecha { get; set; }
 
-		public string Concepto { get; set; }
+		public string? Concepto { get; set; }
 
 		public int PesoTotal { get; set; }
 
