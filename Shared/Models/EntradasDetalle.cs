@@ -17,6 +17,12 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared.Models
 
 		public int ProductoId { get; set; }
 
-		public float CantidadUtilizada { get; set; }
+		public int CantidadUtilizada { get; set; }
+
+		public int FrutoId { get; set; }
+
+		public String? Nombre { get; set; }
+
+		public int Disponibilidad { get; set; }
 	}
 }

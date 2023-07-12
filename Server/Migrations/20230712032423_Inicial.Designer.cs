@@ -11,7 +11,7 @@ using Parcial2_Luis_Miguel_Caceres.Server.DAL;
 namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230711005124_Inicial")]
+    [Migration("20230712032423_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -56,6 +56,9 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.Property<float>("CantidadUtilizada")
                         .HasColumnType("REAL");
 
+                    b.Property<int?>("EntradaId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("EntradadId")
                         .HasColumnType("INTEGER");
 
@@ -64,7 +67,52 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
 
                     b.HasKey("DetalleId");
 
+                    b.HasIndex("EntradaId");
+
                     b.ToTable("EntradasDetalle");
+                });
+
+            modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.Frutos", b =>
+                {
+                    b.Property<int>("FrutoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Disponibilidad")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("FrutoId");
+
+                    b.ToTable("Frutos");
+
+                    b.HasData(
+                        new
+                        {
+                            FrutoId = 1,
+                            Disponibilidad = 50,
+                            Nombre = "Maní"
+                        },
+                        new
+                        {
+                            FrutoId = 2,
+                            Disponibilidad = 600,
+                            Nombre = "Pistachos"
+                        },
+                        new
+                        {
+                            FrutoId = 3,
+                            Disponibilidad = 500,
+                            Nombre = "Pasas"
+                        },
+                        new
+                        {
+                            FrutoId = 4,
+                            Disponibilidad = 700,
+                            Nombre = "Ciruelas"
+                        });
                 });
 
             modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.Productos", b =>
@@ -72,6 +120,9 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<float>("CantidadUtilizada")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -86,6 +137,18 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.HasKey("ProductoId");
 
                     b.ToTable("Productos");
+                });
+
+            modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.EntradasDetalle", b =>
+                {
+                    b.HasOne("Parcial2_Luis_Miguel_Caceres.Shared.Entradas", null)
+                        .WithMany("EntradasDetalles")
+                        .HasForeignKey("EntradaId");
+                });
+
+            modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Entradas", b =>
+                {
+                    b.Navigation("EntradasDetalles");
                 });
 #pragma warning restore 612, 618
         }

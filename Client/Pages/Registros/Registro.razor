@@ -1,22 +1,20 @@
-﻿@page "/Entrada"
-@page "/Entrada/{entradaId:int}"
+﻿@page "/Registro"
 @inject HttpClient httpClient
-@*inject NotificationService notificationService*@
 
-<EditForm Model="entradaId" OnValidSubmit="Guardar">
+<EditForm Model="pruebaId" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
 
 	<div class="container">
 		<div class="card shadow-lg">
 			<div class="card-header">
-				<h3>Entradas de productos empacados</h3>
+				<h3>Registro de Entradas</h3>
 			</div>
 			<div class="card-body">
 				@*Buscar*@
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-					<label>Id</label>
+					<label>EntradaId</label>
 					<div class="input-group mb-3">
-						<InputNumber @bind-Value="entrada.ProductoId" class="form-control" aria-describedby="buscarButton" />
+						<InputNumber @bind-Value="Entradas.EntradaId" class="form-control" aria-describedby="buscarButton" />
 						<button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="buscarButton">
 							<i class="oi oi-magnifying-glass" />
 						</button>
@@ -26,15 +24,15 @@
 				@*Fecha*@
 				<div class="col-4">
 					<label class="form-laber">Fecha</label>
-					<InputDate @bind-Value="entrada.Fecha" class="form-control"></InputDate>
-					<ValidationMessage For="@(() => entrada.Fecha)" />
+					<InputDate @bind-Value="Entradas.Fecha" class="form-control"></InputDate>
+					<ValidationMessage For="@(() => Entradas.Fecha)" />
 				</div>
 
 				@*Concepto*@
 				<div class="mb-3">
 					<label class="form-label">Concepto</label>
-					<InputText @bind-Value="entrada.Concepto" class="form-control"></InputText>
-					<ValidationMessage For="@(() => entrada.Concepto)" />
+					<InputText @bind-Value="Entradas.Concepto" class="form-control"></InputText>
+					<ValidationMessage For="@(() => Entradas.Concepto)" />
 				</div>
 
 				@*DETALLE*@
@@ -43,22 +41,23 @@
 						<h3>Utilizados</h3>
 					</div>
 					<div class="row m-1">
-						@*TipoProducto*@
+
+						@*Productos*@
 						<div class="col-8">
-							<label>Tipo Producto:</label>
-							<InputSelect class="form-select" @bind-Value="TipoProductoSeleccionado">
+							<label>Tipo Entradas:</label>
+							<InputSelect class="form-select" @bind-Value="FrutoSeleccionado">
 								<option value="0" disabled selected> [Seleccione] </option>
-								@foreach (var tipo in TiposProductosList)
+								@foreach (var tipo in FrutosList)
 								{
-									<option value="@tipo.Tipo"> "@tipo.Descripcion" </option>
+									<option value="@tipo.FrutoId"> "@tipo.Nombre" </option>
 								}
 							</InputSelect>
 						</div>
 
-						@*Cantidad*@
+						@*CantidadUtilizada*@
 						<div class="col-2">
-							<label>Cantidad:</label>
-							<InputNumber class="form-control" @bind-Value="detalle.CantidadUtilizada"></InputNumber>
+							<label>CantidadUtilizada:</label>
+							<InputNumber class="form-control" @bind-Value="Detalle.CantidadUtilizada"></InputNumber>
 						</div>
 
 						@*Boton Agregar*@
@@ -79,20 +78,20 @@
 					<table class="table table-bordered table-light m-1">
 						<thead class="thead">
 							<tr class="table">
-								<th>Producto</th>
+								<th>Entradas</th>
 								<th>Descripci&oacuten</th>
-								<th>Cantidad</th>
+								<th>CantidadUtilizada</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							@foreach (var detalle in entrada.EntradasDetalles)
+							@foreach (var detalle in Entradas.EntradasDetalles)
 							{
 								<tr>
-									<td>@(DescripcionTipo(producto.Tipo))</td>
-									<td>@producto.Descripcion</td>
-									<td>@producto.Existencia</td>
-									<td>@producto.CantidadUtilizada</td>
+									<td>@detalle.ProductoId</td>
+
+									@*<td>@(DescripcionTipo(detalle.EntradaId))</td>*@
+									<td>@detalle.CantidadUtilizada</td>
 									<td> <button @onclick="@(() => RemoverDetalle(detalle))"><i class="oi oi-trash" /> Eliminar</button>   </td>
 								</tr>
 							}
@@ -102,7 +101,7 @@
 							<div class="col-8">
 								<label>Peso Total</label>
 								<div class="input-group mb-3">
-									<span class="form-control">@entrada.EntradasDetalles.Count()</span>
+									<span class="form-control">@Entradas.EntradasDetalles.Count()</span>
 								</div>
 							</div>
 						</div>
@@ -117,16 +116,16 @@
 						<h3>Producido</h3>
 					</div>
 					<div class="row m-1">
-						@*Producto*@
+						@*Entradas*@
 						<div class="col-8">
-							<label>Producto:</label>
-							<InputNumber class="form-control" @bind-Value="detalle.ProductoId"></InputNumber>
+							<label>Entradas:</label>
+							<InputNumber class="form-control" @bind-Value="Detalle.DetalleId"></InputNumber>
 						</div>
 
-						@*Cantidad*@
+						@*CantidadUtilizada*@
 						<div class="col-2">
-							<label>Cantidad:</label>
-							<InputNumber class="form-control" @bind-Value="detalle.CantidadUtilizada"></InputNumber>
+							<label>CantidadUtilizada:</label>
+							<InputNumber class="form-control" @bind-Value="Detalle.CantidadUtilizada"></InputNumber>
 						</div>
 					</div>
 				</fieldset>
@@ -149,40 +148,61 @@
 
 @code {
 	[Parameter]
-	public int entradaId { get; set; }
-	public Entradas entrada { get; set; } = new Entradas();
-	public Productos producto { get; set; } = new Productos();
 
-	public int TipoProductoSeleccionado { get; set; } = 0;
-	public int ProductoSeleccionado { get; set; } = 0;
+	public int pruebaId	{ get; set; }
+	public int EntradaId { get; set; }
+	public int FrutoId { get; set; }
+	public int ProductoId { get; set; }
+
+	public Entradas Entradas { get; set; } = new Entradas();
+	public Productos Productos { get; set; } = new Productos();
+	public Frutos Frutos { get; set; } = new Frutos();
+
+	public IEnumerable<Frutos> FrutosList { get; set; } = Enumerable.Empty<Frutos>();
+	public EntradasDetalle Detalle { get; set; } = new EntradasDetalle();
+	public int Productoseleccionado { get; set; } = 0;
+
+	public int FrutoSeleccionado { get; set; } = 0;
+	public string NombreFrutoSeleccionado { get; set; } = string.Empty;
+	public int Entradaseleccionado { get; set; } = 0;
 
 	public string Mensaje { get; set; } = string.Empty;
 	public string ValidacionDetalle { get; set; } = string.Empty;
 
-	public EntradasDetalle detalle { get; set; } = new EntradasDetalle();
-	public IEnumerable<Productos> TiposProductosList { get; set; } = Enumerable.Empty<Productos>();
-
 	protected override async Task OnInitializedAsync()
 	{
-		if (entradaId > 0)
+		if (EntradaId > 0)
 		{
-			this.entrada.ProductoId = entradaId;
+			this.Entradas.EntradaId = EntradaId;
 			await Buscar();
 		}
+
+		await CargarFrutos();
+
+		if (FrutoId > 0)
+		{
+			this.Frutos.FrutoId = FrutoId;
+			await Buscar();
+		}
+	}
+	private async Task CargarFrutos()
+	{
+		var encontrados = await httpClient.GetFromJsonAsync<IEnumerable<Frutos>>("api/Frutos");
+		if (encontrados != null)
+			FrutosList = encontrados;
 	}
 
 	public async Task Buscar()
 	{
-		var ingresoEncotrado = await httpClient.GetFromJsonAsync<Entradas>($"api/Entradas/{entrada.ProductoId}");
-
-		if (ingresoEncotrado != null)
+		var EntradaEncontrada = await httpClient.GetFromJsonAsync<Entradas>($"api/Entradas/{Entradas.EntradaId}");
+		if (EntradaEncontrada != null)
 		{
-			this.entrada = ingresoEncotrado;
+			this.Entradas = EntradaEncontrada;
 			StateHasChanged();
 		}
 		else
 		{
-			Mensaje = "No fue encontrado";
+			Mensaje = "Entrada no ha sido encontrada";
 		}
 	}
 
@@ -191,49 +211,53 @@
 		if (!ValidarDetalle())
 			return;
 
-		entrada.EntradasDetalles.Add(new EntradasDetalle()
+		Entradas.EntradasDetalles.Add(new EntradasDetalle()
 			{
-				//Tipo = TipoProductoSeleccionado,
-				CantidadUtilizada = ProductoSeleccionado
+				FrutoId = FrutoSeleccionado,
+				Nombre = NombreFrutoSeleccionado,
 			});
-		TipoProductoSeleccionado = 0;
-		ProductoSeleccionado = 0;
+
+		FrutoSeleccionado = 0;
+		NombreFrutoSeleccionado = string.Empty;
+
 		StateHasChanged();
 	}
 
-	public string DescripcionTipo(int tipoId)
+	public string DescripcionFruto(int FrutoId)
 	{
-		var tipoProducto = TiposProductosList.FirstOrDefault(t => t.Tipo == tipoId);
-
-		return tipoProducto!.Descripcion;
+		var TipoFruto = FrutosList.FirstOrDefault(t => t.FrutoId == FrutoId);
+		return TipoFruto!.Nombre;
 	}
 
 	public void RemoverDetalle(EntradasDetalle detalleRemover)
 	{
-		TipoProductoSeleccionado = detalleRemover.ProductoId;
-		ProductoSeleccionado = detalleRemover.DetalleId;
+		FrutoSeleccionado = detalleRemover.FrutoId;
+		NombreFrutoSeleccionado = detalleRemover.Nombre;
 
-		entrada.EntradasDetalles.Remove(detalleRemover);
+		Entradas.EntradasDetalles.Remove(detalleRemover);
 	}
+
 
 	public bool ValidarDetalle()
 	{
 		ValidacionDetalle = string.Empty;
-		if (TipoProductoSeleccionado <= 0)
+		if (FrutoSeleccionado <= 0)
 		{
-			ValidacionDetalle = "El Tipo de Producto es obligatorio";
+			ValidacionDetalle = "Debe de seleccionar un fruto";
 		}
 
-		if (ProductoSeleccionado <= 0)
+		if (String.IsNullOrWhiteSpace(NombreFrutoSeleccionado))
 		{
-			ValidacionDetalle += " ";
+			ValidacionDetalle += "El fruto es obligatorio";
 		}
+
 		return ValidacionDetalle.Length == 0;
 	}
 
+
 	public async void Guardar()
 	{
-		using var response = await httpClient.PostAsJsonAsync("api/Entradas", entrada);
+		using var response = await httpClient.PostAsJsonAsync("api/Entradas", Entradas);
 		if (!response.IsSuccessStatusCode)
 		{
 			Mensaje = response.ReasonPhrase ?? "Error";
@@ -242,7 +266,7 @@
 		var devuelto = await response.Content.ReadFromJsonAsync<Entradas>();
 		if (devuelto is not null)
 		{
-			entrada = devuelto;
+			Entradas = devuelto;
 			StateHasChanged();
 		}
 
@@ -250,23 +274,25 @@
 
 	public void Nuevo()
 	{
-		this.entrada = new Entradas();
+		this.Entradas = new Entradas();
 		Mensaje = string.Empty;
 		ValidacionDetalle = string.Empty;
 
-		TipoProductoSeleccionado = 0;
-		ProductoSeleccionado = 0;
+		FrutoSeleccionado = 0;
+		NombreFrutoSeleccionado = string.Empty;
 	}
 
 	public async Task Eliminar()
 	{
-		using var response = await httpClient.DeleteAsync($"api/Entradas{entrada.ProductoId}");
+		using var response = await httpClient.DeleteAsync($"api/Entradas/{Entradas.EntradaId}");
 		if (!response.IsSuccessStatusCode)
 		{
-			Mensaje = response.ReasonPhrase ?? "Error";
+			Mensaje = response.ReasonPhrase ?? "error";
 			return;
 		}
 		else
 			Nuevo();
 	}
+
+
 }

@@ -19,7 +19,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared
 
 		public string Concepto { get; set; }
 
-		public float PesoTotal { get; set; }
+		public int PesoTotal { get; set; }
 
 		public int ProductoId { get; set; }
 
