@@ -23,6 +23,7 @@ public class Context : DbContext
 			new Frutos(){FrutoId=2, Nombre="Pistachos",  Disponibilidad = 600},
 			new Frutos(){FrutoId=3, Nombre="Pasas", Disponibilidad = 500},
 			new Frutos(){FrutoId=4, Nombre="Ciruelas",  Disponibilidad = 700},
+			new Frutos(){FrutoId=5,  Nombre="Arandanos", Disponibilidad = 100},
 		});;
 	}
 }

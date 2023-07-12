@@ -13,9 +13,8 @@ public class Frutos
 
 	public int FrutoId { get; set; }
 
-	public string Nombre { get; set; }
+	public string? Nombre { get; set; }
 
 	public int Disponibilidad { get; set; }
-
 }
 

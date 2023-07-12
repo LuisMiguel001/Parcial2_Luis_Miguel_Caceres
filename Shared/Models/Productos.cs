@@ -16,10 +16,8 @@ namespace Parcial2_Luis_Miguel_Caceres.Shared.Models
 
 		public string? Descripcion { get; set; }
 
-        public int Tipo { get; set; }
+		public int Existencia { get; set; }
 
-        public int Existencia { get; set; }
-
-		public int CantidadUtilizada { get; set; }
+		public int Peso { get; set; }
 	}
 }

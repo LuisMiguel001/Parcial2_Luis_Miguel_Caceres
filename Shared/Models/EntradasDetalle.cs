@@ -5,24 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Parcial2_Luis_Miguel_Caceres.Shared.Models
+namespace Parcial2_Luis_Miguel_Caceres.Shared.Models;
+
+public class EntradasDetalle
 {
-	public class EntradasDetalle
-	{
-		[Key]
+	[Key]
 
-		public int DetalleId { get; set; }
+	public int DetalleId { get; set; }
 
-		public int EntradadId { get; set; }
+	public int EntradaId { get; set; }
 
-		public int ProductoId { get; set; }
+	public int ProductoId { get; set; }
 
-		public int CantidadUtilizada { get; set; }
+	public int CantidadUtilizada { get; set; }
 
-		public int FrutoId { get; set; }
+	public string? Descripcion { get; set; }
 
-		public string Nombre { get; set; }
+	public int FrutoId { get; set; }
 
-		public int Disponibilidad { get; set; }
-	}
+	public string? Nombre { get; set; }
+
+	public int Disponibilidad { get; set; }
 }
+
