@@ -1,4 +1,4 @@
-﻿@page "/Registro"
+﻿@page "/Entrada"
 @inject HttpClient httpClient
 
 <EditForm Model="EntradaId" OnValidSubmit="Guardar">
@@ -44,10 +44,10 @@
 						@*Productos*@
 						<div class="col-8">
 							<label>Tipo Entradas:</label>
-							<InputSelect class="form-select" @bind-Value="FrutoSeleccionado">
-								<option value="0" disabled selected> [Seleccione] </option>
+							<InputSelect class="form-select" @bind-Value="NombreFrutoSeleccionado">
+								@*<option value="0" disabled selected> [Seleccione] </option>*@
 								@foreach (var tipo in FrutosList)
-								{
+								{									
 									<option value="@tipo.FrutoId"> "@tipo.Nombre" </option>
 								}
 							</InputSelect>
