@@ -21,6 +21,7 @@ public class Productos
     public int Tipo { get; set; }
 
     [Required(ErrorMessage = "La cantidad que existen de los productos es obligatoria")]
-    public float Existencia { get; set; }
+    public int Existencia { get; set; }
+            
 }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Parcial2_Luis_Miguel_Caceres.Client.Pages.Registros;
 using Parcial2_Luis_Miguel_Caceres.Shared;
 using Parcial2_Luis_Miguel_Caceres.Shared.Models;
 
@@ -11,6 +12,7 @@ public class Context : DbContext
 
 	public DbSet<Entradas> Entradas { get; set; }
 	public DbSet<Productos> Productos { get; set; }	
+	public DbSet<EntradasDetalle> Detalle { get; set; }	
 	//public DbSet<Frutos> Frutos { get; set; }	
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -18,7 +20,7 @@ public class Context : DbContext
 		base.OnModelCreating(modelBuilder);
 		modelBuilder.Entity<Productos>().HasData(new List<Productos>()
 		{
-			new Productos(){ProductoId=1, Descripcion="Maní", Existencia = 50},
+			new Productos(){ProductoId=1, Descripcion="Maní", Existencia = 40},
 			new Productos(){ProductoId=2, Descripcion="Pistachos", Existencia = 600},
 			new Productos(){ProductoId=3, Descripcion="Pasas", Existencia = 500},
 			new Productos(){ProductoId=4, Descripcion="Ciruelas", Existencia = 700},
