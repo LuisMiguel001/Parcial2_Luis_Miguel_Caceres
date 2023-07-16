@@ -11,7 +11,7 @@ using Parcial2_Luis_Miguel_Caceres.Server.DAL;
 namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230712032423_Inicial")]
+    [Migration("20230716034919_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CantiadadId")
+                    b.Property<int>("CantidadProducida")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Concepto")
@@ -36,8 +36,8 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<float>("PesoTotal")
-                        .HasColumnType("REAL");
+                    b.Property<int>("PesoTotal")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
@@ -53,13 +53,10 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<float>("CantidadUtilizada")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("EntradaId")
+                    b.Property<int>("CantidadUtilizada")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EntradadId")
+                    b.Property<int>("EntradaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ProductoId")
@@ -72,57 +69,11 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.ToTable("EntradasDetalle");
                 });
 
-            modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.Frutos", b =>
-                {
-                    b.Property<int>("FrutoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Disponibilidad")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("FrutoId");
-
-                    b.ToTable("Frutos");
-
-                    b.HasData(
-                        new
-                        {
-                            FrutoId = 1,
-                            Disponibilidad = 50,
-                            Nombre = "Maní"
-                        },
-                        new
-                        {
-                            FrutoId = 2,
-                            Disponibilidad = 600,
-                            Nombre = "Pistachos"
-                        },
-                        new
-                        {
-                            FrutoId = 3,
-                            Disponibilidad = 500,
-                            Nombre = "Pasas"
-                        },
-                        new
-                        {
-                            FrutoId = 4,
-                            Disponibilidad = 700,
-                            Nombre = "Ciruelas"
-                        });
-                });
-
             modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.Productos", b =>
                 {
                     b.Property<int>("ProductoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<float>("CantidadUtilizada")
-                        .HasColumnType("REAL");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
@@ -131,19 +82,74 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.Property<int>("Existencia")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("PrecioDeCompra")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("PrecioDeVenta")
+                        .HasColumnType("REAL");
+
                     b.Property<int>("Tipo")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ProductoId");
 
                     b.ToTable("Productos");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductoId = 1,
+                            Descripcion = "Maní",
+                            Existencia = 50,
+                            PrecioDeCompra = 0.0,
+                            PrecioDeVenta = 0.0,
+                            Tipo = 0
+                        },
+                        new
+                        {
+                            ProductoId = 2,
+                            Descripcion = "Pistachos",
+                            Existencia = 600,
+                            PrecioDeCompra = 0.0,
+                            PrecioDeVenta = 0.0,
+                            Tipo = 0
+                        },
+                        new
+                        {
+                            ProductoId = 3,
+                            Descripcion = "Pasas",
+                            Existencia = 500,
+                            PrecioDeCompra = 0.0,
+                            PrecioDeVenta = 0.0,
+                            Tipo = 0
+                        },
+                        new
+                        {
+                            ProductoId = 4,
+                            Descripcion = "Ciruelas",
+                            Existencia = 700,
+                            PrecioDeCompra = 0.0,
+                            PrecioDeVenta = 0.0,
+                            Tipo = 0
+                        },
+                        new
+                        {
+                            ProductoId = 5,
+                            Descripcion = "Arandanos",
+                            Existencia = 100,
+                            PrecioDeCompra = 0.0,
+                            PrecioDeVenta = 0.0,
+                            Tipo = 0
+                        });
                 });
 
             modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.EntradasDetalle", b =>
                 {
                     b.HasOne("Parcial2_Luis_Miguel_Caceres.Shared.Entradas", null)
                         .WithMany("EntradasDetalles")
-                        .HasForeignKey("EntradaId");
+                        .HasForeignKey("EntradaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Entradas", b =>
