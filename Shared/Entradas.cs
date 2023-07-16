@@ -7,26 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Parcial2_Luis_Miguel_Caceres.Shared
+namespace Parcial2_Luis_Miguel_Caceres.Shared;
+
+public class Entradas
 {
-	public class Entradas
-	{
-		[Key]
+    [Key]
 
-		public int EntradaId { get; set; }
+    public int EntradaId { get; set; }
 
-        public DateTime Fecha { get; set; }
+    public DateTime Fecha { get; set; } = DateTime.Today;
 
-		public string? Concepto { get; set; }
+    [Required(ErrorMessage = "El concepto es obligatorio")]
+    public string Concepto { get; set; } = string.Empty;
 
-		public int PesoTotal { get; set; }
+    public int PesoTotal { get; set; }
 
-		public int ProductoId { get; set; }
+    [Required(ErrorMessage = "El ProductodId obligatorio")]
+    public int ProductoId { get; set; }
 
-		public int CantiadadId { get; set; }
+    [Required(ErrorMessage = "La cantidad utilizada es obligatoria")]
+    public int CantidadProducida { get; set; }
 
-		[ForeignKey("EntradaId")]
-		public ICollection<EntradasDetalle> EntradasDetalles { get; set; } = new List<EntradasDetalle>();
-		
-	}
+    [ForeignKey("EntradaId")]
+    public List<EntradasDetalle> EntradasDetalles { get; set; } = new List<EntradasDetalle>();
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Parcial2_Luis_Miguel_Caceres.Server.DAL;
 using Parcial2_Luis_Miguel_Caceres.Shared;
+using Parcial2_Luis_Miguel_Caceres.Shared.Models;
 
 namespace Parcial2_Luis_Miguel_Caceres.Server.Controllers;
 
@@ -10,74 +11,82 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Controllers;
 [ApiController]
 public class ProductosController : ControllerBase
 {
-	private readonly Context _context;
+    private readonly Context _context;
 
-	public ProductosController(Context context)
-	{
-		_context = context;
-	}
+    public ProductosController(Context context)
+    {
+        _context = context;
+    }
 
-	[HttpGet]
-	public async Task<ActionResult<IEnumerable<Entradas>>> GetEntradas()
-	{
-		if (_context.Entradas == null)
-		{
-			return NotFound();
-		}
-		return await _context.Entradas.ToListAsync();
-	}
+    public bool Existe(int ProductoId)
+    {
+        return (_context.Productos?.Any(p => p.ProductoId == ProductoId)).GetValueOrDefault();
+    }
 
-	[HttpGet("{id}")]
-	public async Task<ActionResult<Entradas>> GetEntradas(int id)
-	{
-		if (_context.Entradas == null)
-		{
-			return NotFound();
-		}
-		var Entradas = await _context.Entradas.FindAsync(id);
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Productos>>> Obtener()
+    {
+        if (_context.Productos == null)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return await _context.Productos.ToListAsync();
+        }
+    }
 
-		if (Entradas == null)
-		{
-			return NotFound();
-		}
+    [HttpGet("{ProductoId}")]
+    public async Task<ActionResult<Productos>> ObtenerProductos(int ProductoId)
+    {
+        if (_context.Productos == null)
+        {
+            return NotFound();
+        }
 
-		return Entradas;
-	}
+        var producto = await _context.Productos.FindAsync(ProductoId);
 
-	[HttpPost]
-	public async Task<ActionResult<Entradas>> PostEntradas(Entradas Entradas)
-	{
-		if (!EntradasExists(Entradas.ProductoId))
-			_context.Entradas.Add(Entradas);
-		else
-			_context.Entradas.Update(Entradas);
+        if (producto == null)
+        {
+            return NotFound();
+        }
+        return producto;
+    }
 
-		await _context.SaveChangesAsync();
-		return Ok(Entradas);
-	}
+    [HttpPost]
+    public async Task<ActionResult<Productos>> PostProductos(Productos productos)
+    {
+        if (!Existe(productos.ProductoId))
+        {
+            _context.Productos.Add(productos);
+        }
+        else
+        {
+            _context.Productos.Update(productos);
+        }
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> DeleteEntradas(int id)
-	{
-		if (_context.Entradas == null)
-		{
-			return NotFound();
-		}
-		var Entradas = await _context.Entradas.FindAsync(id);
-		if (Entradas == null)
-		{
-			return NotFound();
-		}
+        await _context.SaveChangesAsync();
+        return Ok(productos);
+    }
 
-		_context.Entradas.Remove(Entradas);
-		await _context.SaveChangesAsync();
+    [HttpDelete("{ProductoId}")]
+    public async Task<IActionResult> Eliminar(int ProductoId)
+    {
+        if (_context.Productos == null)
+        {
+            return NotFound();
+        }
 
-		return NoContent();
-	}
+        var producto = await _context.Productos.FindAsync(ProductoId);
 
-	private bool EntradasExists(int id)
-	{
-		return (_context.Entradas?.Any(e => e.ProductoId == id)).GetValueOrDefault();
-	}
+        if (producto == null)
+        {
+            return NotFound();
+        }
+
+        _context.Productos.Remove(producto);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 }
 
