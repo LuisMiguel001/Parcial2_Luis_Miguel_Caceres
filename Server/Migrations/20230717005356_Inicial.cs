@@ -38,9 +38,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Descripcion = table.Column<string>(type: "TEXT", nullable: false),
                     Tipo = table.Column<int>(type: "INTEGER", nullable: false),
-                    Existencia = table.Column<int>(type: "INTEGER", nullable: false),
-                    PrecioDeCompra = table.Column<double>(type: "REAL", nullable: false),
-                    PrecioDeVenta = table.Column<double>(type: "REAL", nullable: false)
+                    Existencia = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +46,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EntradasDetalle",
+                name: "Detalle",
                 columns: table => new
                 {
                     DetalleId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -59,9 +57,9 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntradasDetalle", x => x.DetalleId);
+                    table.PrimaryKey("PK_Detalle", x => x.DetalleId);
                     table.ForeignKey(
-                        name: "FK_EntradasDetalle_Entradas_EntradaId",
+                        name: "FK_Detalle_Entradas_EntradaId",
                         column: x => x.EntradaId,
                         principalTable: "Entradas",
                         principalColumn: "EntradaId",
@@ -70,19 +68,21 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "Productos",
-                columns: new[] { "ProductoId", "Descripcion", "Existencia", "PrecioDeCompra", "PrecioDeVenta", "Tipo" },
+                columns: new[] { "ProductoId", "Descripcion", "Existencia", "Tipo" },
                 values: new object[,]
                 {
-                    { 1, "Maní", 50, 0.0, 0.0, 0 },
-                    { 2, "Pistachos", 600, 0.0, 0.0, 0 },
-                    { 3, "Pasas", 500, 0.0, 0.0, 0 },
-                    { 4, "Ciruelas", 700, 0.0, 0.0, 0 },
-                    { 5, "Arandanos", 100, 0.0, 0.0, 0 }
+                    { 1, "Maní", 40, 0 },
+                    { 2, "Pistachos", 600, 0 },
+                    { 3, "Pasas", 500, 0 },
+                    { 4, "Ciruelas", 700, 0 },
+                    { 5, "Mixto MPP 0.5lb", 0, 1 },
+                    { 6, "Mixto MPC 0.5lb", 0, 1 },
+                    { 7, "Mixto MPP 0.2lb", 0, 1 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EntradasDetalle_EntradaId",
-                table: "EntradasDetalle",
+                name: "IX_Detalle_EntradaId",
+                table: "Detalle",
                 column: "EntradaId");
         }
 
@@ -90,7 +90,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EntradasDetalle");
+                name: "Detalle");
 
             migrationBuilder.DropTable(
                 name: "Productos");

@@ -20,11 +20,13 @@ public class Context : DbContext
 		base.OnModelCreating(modelBuilder);
 		modelBuilder.Entity<Productos>().HasData(new List<Productos>()
 		{
-			new Productos(){ProductoId=1, Descripcion="Maní", Existencia = 40},
-			new Productos(){ProductoId=2, Descripcion="Pistachos", Existencia = 600},
-			new Productos(){ProductoId=3, Descripcion="Pasas", Existencia = 500},
-			new Productos(){ProductoId=4, Descripcion="Ciruelas", Existencia = 700},
-			new Productos(){ProductoId=5, Descripcion="Arandanos", Existencia = 100},
+			new Productos(){ProductoId=1, Descripcion="Maní", Existencia = 40, Tipo = 0},
+			new Productos(){ProductoId=2, Descripcion="Pistachos", Existencia = 600, Tipo = 0},
+			new Productos(){ProductoId=3, Descripcion="Pasas", Existencia = 500, Tipo = 0},
+			new Productos(){ProductoId=4, Descripcion="Ciruelas", Existencia = 700, Tipo = 0},
+			new Productos(){ProductoId=5, Descripcion="Mixto MPP 0.5lb", Existencia = 0, Tipo = 1},
+			new Productos(){ProductoId=6, Descripcion="Mixto MPC 0.5lb", Existencia = 0, Tipo = 1},
+			new Productos(){ProductoId=7, Descripcion="Mixto MPP 0.2lb", Existencia = 0, Tipo = 1}
 		});
 	}
 }

@@ -63,7 +63,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
 
                     b.HasIndex("EntradaId");
 
-                    b.ToTable("EntradasDetalle");
+                    b.ToTable("Detalle");
                 });
 
             modelBuilder.Entity("Parcial2_Luis_Miguel_Caceres.Shared.Models.Productos", b =>
@@ -79,12 +79,6 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                     b.Property<int>("Existencia")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("PrecioDeCompra")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("PrecioDeVenta")
-                        .HasColumnType("REAL");
-
                     b.Property<int>("Tipo")
                         .HasColumnType("INTEGER");
 
@@ -97,9 +91,7 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                         {
                             ProductoId = 1,
                             Descripcion = "Maní",
-                            Existencia = 50,
-                            PrecioDeCompra = 0.0,
-                            PrecioDeVenta = 0.0,
+                            Existencia = 40,
                             Tipo = 0
                         },
                         new
@@ -107,8 +99,6 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                             ProductoId = 2,
                             Descripcion = "Pistachos",
                             Existencia = 600,
-                            PrecioDeCompra = 0.0,
-                            PrecioDeVenta = 0.0,
                             Tipo = 0
                         },
                         new
@@ -116,8 +106,6 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                             ProductoId = 3,
                             Descripcion = "Pasas",
                             Existencia = 500,
-                            PrecioDeCompra = 0.0,
-                            PrecioDeVenta = 0.0,
                             Tipo = 0
                         },
                         new
@@ -125,18 +113,28 @@ namespace Parcial2_Luis_Miguel_Caceres.Server.Migrations
                             ProductoId = 4,
                             Descripcion = "Ciruelas",
                             Existencia = 700,
-                            PrecioDeCompra = 0.0,
-                            PrecioDeVenta = 0.0,
                             Tipo = 0
                         },
                         new
                         {
                             ProductoId = 5,
-                            Descripcion = "Arandanos",
-                            Existencia = 100,
-                            PrecioDeCompra = 0.0,
-                            PrecioDeVenta = 0.0,
-                            Tipo = 0
+                            Descripcion = "Mixto MPP 0.5lb",
+                            Existencia = 0,
+                            Tipo = 1
+                        },
+                        new
+                        {
+                            ProductoId = 6,
+                            Descripcion = "Mixto MPC 0.5lb",
+                            Existencia = 0,
+                            Tipo = 1
+                        },
+                        new
+                        {
+                            ProductoId = 7,
+                            Descripcion = "Mixto MPP 0.2lb",
+                            Existencia = 0,
+                            Tipo = 1
                         });
                 });
 
